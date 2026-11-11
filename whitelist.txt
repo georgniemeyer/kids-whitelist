@@ -22,16 +22,32 @@ skaten-lernen.de
 # ==========================================
 # KATEGORIE: Wissen, Lexikon & Nachrichten
 # ==========================================
+frieden-fragen.de
 klexikon.zum.de
 mikado-radio.de
 naturdetektive.bfn.de
+
+# ==========================================
+# KATEGORIE: Technische Infrastruktur & CDNs
+# ==========================================
+ajax.googleapis.com
+bootstrap-cdn.com
+cdnjs.cloudflare.com
+cloudflare.com
+fonts.googleapis.com
+gstatic.com
+jsdelivr.net
+static-kika.de
+static-zdf.de
+unpkg.com
+vimeocdn.com
+zdf-cdn.de
 
 # ==========================================
 # KATEGORIE: Kinderseiten, Spiele & Kreativität
 # ==========================================
 abenteuer-regenwald.de
 abfrager.de
-ajax.googleapis.com
 amigo-spiele.de
 anton.app
 arche-warder.de
@@ -48,7 +64,6 @@ besser-basteln.de
 blinde-kuh.de
 bmfsfj.de
 boersenblatt.net
-bootstrap-cdn.com
 bpb.de
 br-kinder.de
 br.de
@@ -57,9 +72,7 @@ bzkj.de
 carlsen.de
 cavallo.de
 cbj-verlag.de
-cdnjs.cloudflare.com
 checkeins.de
-cloudflare.com
 conni.de
 coppenrath.de
 darc.de
@@ -82,14 +95,12 @@ eltern.de
 erfurter-netcode.de
 familie.de
 feuerwehrverein.de
-fonts.googleapis.com
 geo.de
 geolino.de
 ggpht.com
 gravatar.com
 greenpeace-jugend.de
 grundschulkoenig.de
-gstatic.com
 gutenachtgeschichte.org
 hagenbeck.de
 haithabu.de
@@ -102,7 +113,6 @@ hoerspielprojekt.de
 janosch.de
 jim-knopf.de
 jquery.com
-jsdelivr.net
 jugend-museum.de
 jugendfeuerwehr.de
 jusprog.de
@@ -179,8 +189,6 @@ sofatutor.com
 speicherstadtmuseum.de
 srf.ch
 starke-kids.de
-static-kika.de
-static-zdf.de
 stiftunglesung.de
 swr.de
 tessloff.com
@@ -197,11 +205,9 @@ tonies.de
 tove-jansson.com
 turnen.de
 typekit.net
-unpkg.com
 usborne.de
 vhs-hamburg.de
 vimeo.com
-vimeocdn.com
 vorleser.net
 w3.org
 waddensea-worldheritage.org
@@ -216,7 +222,6 @@ wwf-junior.de
 wwf.de
 ytimg.com
 zahlenzorro.de
-zdf-cdn.de
 zdf.de
 zum.de
 zzzebra.de
