@@ -1,3 +1,6 @@
 # Please list here any domain that you want to add to the global whitelist. 
 # Only one per line. 
-checky-kinderzeitung.de
+github.com/georgniemeyer/kids-whitelist
+raw.githubusercontent.com/georgniemeyer/kids-whitelist
+github.githubassets.com
+github.github.io
