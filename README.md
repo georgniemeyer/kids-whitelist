@@ -38,7 +38,7 @@ The management of the whitelist in the FRITZ!Box parental control profile depend
    * Click **Apply** at the bottom. The allowance will take effect immediately for the assigned device.
 
 > **Pro Recommendation (DNS Security):** 
->   * To maximize safety alongside the whitelist, it is highly recommended to set up a family-friendly DNS server in your FRITZ!Box network settings (`Internet` -> `Account Information` -> `DNS Servers`). We recommend using **[Cloudflare 1.1.1.1 for Families](https://developers.cloudflare.com/1.1.1.1/setup/#1111-for-families)** (Malware Blocking + Adult Content: Primary `1.1.1.3`, Secondary `1.0.0.3`) to automatically protect all devices at the network level.
+> To maximize safety alongside the whitelist, it is highly recommended to set up a family-friendly DNS server in your FRITZ!Box network settings (`Internet` -> `Account Information` -> `DNS Servers`). We recommend using **[Cloudflare 1.1.1.1 for Families](https://developers.cloudflare.com/1.1.1.1/setup/#1111-for-families)** (Malware Blocking + Adult Content: Primary `1.1.1.3`, Secondary `1.0.0.3`) to automatically protect all devices at the network level.
 
 ---
 
