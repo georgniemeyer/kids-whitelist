@@ -40,7 +40,7 @@ jobs:
 
       - name: Create Proposal Issue
         if: steps.check_candidates.outputs.has_candidates == 'true'
-        uses: peter-evans/create-issue-from-file@v7
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: '🔍 Weekly Whitelist Domain Proposals'
           content-filepath: './suggestions.md'
