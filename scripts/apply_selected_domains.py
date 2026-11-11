@@ -55,7 +55,7 @@ CATEGORIES = {
         "akamai", "fastly", "cloudflare", "jsdelivr", "unpkg", "storage"
     ],
     "12. Persönliche Custom Domains": [
-        # Wird exklusiv aus der custom_whitelist.txt befüllt
+        # is used exclusivly for custom_whitelist.txt
     ]
 }
 
