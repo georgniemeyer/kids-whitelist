@@ -7,7 +7,6 @@ on:
 jobs:
   apply-domains:
     name: Parse Checked Domains and Update Whitelist
-    # Only run if the closed issue carries the 'whitelist-proposal' label
     if: contains(github.event.issue.labels.*.name, 'whitelist-proposal')
     runs-on: ubuntu-latest
 
@@ -34,7 +33,6 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # Pull latest changes to avoid fast-forward conflicts
           git pull origin main || git pull origin master
           
           git add whitelist.txt
