@@ -27,7 +27,6 @@ abfrager.de
 anton.app
 arche-warder.de
 ard-ready.de
-ardmediathek.de
 arriba-erlebnisbad.de
 asterix.com
 auswandererhaus-bremerhaven.de
@@ -159,7 +158,6 @@ wwf-junior.de
 wwf.de
 ytimg.com
 zahlenzorro.de
-zdf.de
 zum.de
 zzzebra.de
 zzzepp.de
@@ -175,7 +173,6 @@ media-kika.de
 mikado-radio.de
 neuneinhalb.wdr.de
 static-kika.de
-wdr.de
 wdrmaus.de
 
 # ==========================================
