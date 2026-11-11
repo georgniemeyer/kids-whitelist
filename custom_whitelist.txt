@@ -1,2 +1,3 @@
 # Please list here any domain that you want to add to the global whitelist. 
 # Only one per line. 
+checky-kinderzeitung.de
