@@ -5,12 +5,10 @@
 # ==========================================
 # KATEGORIE: 01. Kinder-Suchmaschinen & Jugendschutz
 # ==========================================
-cdn.fragfinn.de
-eltern.fragfinn.de
 fragfinn.de
-images.fragfinn.de
 internet-abc.de
 klicksafe.de
+blinde-kuh.de
 
 # ==========================================
 # KATEGORIE: 02. Geprüfte Schul- und Lernportale
@@ -35,7 +33,6 @@ asterix.com
 auswandererhaus-bremerhaven.de
 baudichschlau.de
 beltz.de
-blinde-kuh.de
 bmfsfj.de
 boersenblatt.net
 bpb.de
@@ -50,7 +47,6 @@ coollama.de
 coppenrath.de
 darc.de
 die-bloggerbande.de
-die-drei-ausrufezeichen.de
 die-drei-fragezeichen.de
 dlrg.de
 dogityourself.com
@@ -248,6 +244,7 @@ ajax.googleapis.com
 bootstrap-cdn.com
 cdnjs.cloudflare.com
 cloudflare.com
+cdn.fragfinn.de
 fonts.googleapis.com
 gstatic.com
 jsdelivr.net
