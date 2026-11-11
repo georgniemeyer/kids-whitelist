@@ -4,7 +4,7 @@ FRITZ!Box Whitelist Research Script (Production Ready)
 ----------------------------------------------------
 Periodically checks active external sources and parses RSS feeds
 from renowned pedagogical parent & media guides (Internet-ABC, Klicksafe, Seitenstark)
-to discover new, child-safe domain candidates with clickable links for easy review.
+to discover new, child-safe domain candidates with secure links opening in new tabs.
 """
 
 import os
@@ -178,7 +178,7 @@ def main():
 
     sorted_domains = sorted(candidates_with_sources.keys())
     
-    # 4. Write Markdown Report with Clickable Links for GitHub Issues
+    # 4. Write Markdown Report with target="_blank" HTML links for GitHub Issues
     with open(OUTPUT_REPORT_PATH, "w", encoding="utf-8") as report:
         report.write("## 🔍 Weekly FRITZ!Box Whitelist Research Report\n\n")
         
@@ -191,13 +191,13 @@ def main():
         
         if sorted_domains:
             report.write(
-                "Check the boxes for domains you want to add. Click the domain links to inspect them. "
+                "Check the boxes for domains you want to add. Click the domain links to inspect them (opens in a new tab). "
                 "When done, **close this Issue** to automatically merge checked items into `whitelist.txt`:\n\n"
             )
             for domain in sorted_domains:
                 sources_str = ", ".join(sorted(candidates_with_sources[domain]))
-                # Rendered as a clickable markdown checkbox item with an https:// link
-                report.write(f"- [ ] [\`{domain}\`](https://{domain}) *(Source: {sources_str})*\n")
+                # Compact single-line HTML link opening in a new tab
+                report.write(f"- [ ] <a href=\"https://{domain}\" target=\"_blank\">`{domain}`</a> *(Source: {sources_str})*\n")
                 
             report.write(
                 "\n> **Safety Note:** Please verify domain appropriateness and ensure "
