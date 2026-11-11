@@ -35,10 +35,10 @@ jobs:
           
           git pull origin main || git pull origin master
           
-          git add whitelist.txt
+          git add whitelist.txt whitelist_export.txt
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "feat: auto-add approved domains from Issue #${{ github.event.issue.number }}"
+            git commit -m "feat: auto-add approved domains and update FRITZ!Box export"
             git push
           fi
