@@ -197,7 +197,8 @@ def main():
             for domain in sorted_domains:
                 sources_str = ", ".join(sorted(candidates_with_sources[domain]))
                 # Compact single-line HTML link opening in a new tab
-                report.write(f"- [ ] <a href=\"https://{domain}\" target=\"_blank\">`{domain}`</a> *(Source: {sources_str})*\n")
+                # report.write(f"- [ ] <a href=\"https://{domain}\" target=\"_blank\">`{domain}`</a> *(Source: {sources_str})*\n")
+                report.write(f"- [ ] [`{domain}`](https://{domain}) *(Source: {sources_str})*\n")
                 
             report.write(
                 "\n> **Safety Note:** Please verify domain appropriateness and ensure "
