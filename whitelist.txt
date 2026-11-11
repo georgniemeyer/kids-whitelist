@@ -202,3 +202,9 @@ media-kika.de
 static-zdf.de
 schema.org
 w3.org
+
+# --- APPROVED VIA AUTOMATED ISSUE --- 
+die-bloggerbande.de
+frieden-fragen.de
+ki-kindgerecht.de
+recht-kinderleicht.de
