@@ -1,25 +1,50 @@
-# 🛡️ FRITZ!Box Whitelist for Kids (Northern Germany)
+# 🛡️ Kid-Safe FRITZ!Box Whitelist Automation
 
-A curated, clean, domain-only whitelist optimized for the **FRITZ!Box 500-domain limit** (`FRITZ!OS Allow List`). Designed specifically for a 10-year-old child in Northern Germany (Hamburg / Schleswig-Holstein / Lower Saxony).
+This repository manages and automates a child-safe domain whitelist (with a limit of 500 entries) for the FRITZ!Box. It combines weekly research on renowned pedagogical portals with a structured master list and a fully automated FRITZ!Box export file.
+
+> ⚠️ **Regional Note:** The initial whitelist is currently tailored primarily towards **Northern Germany** (e.g., regional educational initiatives, local cultural projects, and state media authorities). If you are using this whitelist in other regions, we recommend adjusting and expanding the categories in `whitelist.txt` or your `custom_whitelist.txt` to fit your local requirements during the initial setup.
+---
+
+## 📂 Project Structure
+
+- **`whitelist.txt`**: The master file, neatly sorted into 11 pedagogical and technical categories, including your personal custom domains.
+- **`whitelist_export.txt`**: The flat, comment-free export file. This file is automatically updated on every change and can be **directly** copied into your FRITZ!Box.
+- **`custom_whitelist.txt`**: Your personal section in the root directory for custom allowances (one domain per line).
+- **`.github/workflows/`**: Contains the GitHub Actions for weekly research and automatic processing of approvals when issues are closed.
 
 ---
 
-## ✨ Features
+## 📥 Guide: How to Apply Allowed Internet Sites in the FRITZ!Box
 
-* **Strict FRITZ!Box Optimization:** Raw domains only (no `https://`, no sub-paths). Eliminates redundant path entries to respect the 500-domain restriction.
-* **Essential Technical CDNs Included:** Pre-configured with required CDNs (`gstatic`, `cloudflare`, `vimeocdn`, KiKa/ZDF assets) so pages, videos, and images load correctly without opening unwanted domains.
-* **Educational & Regional Focus:** Combines German pedagogical core sources (*fragFINN*, *Blinde Kuh*, *seitenstark*) with Northern German media, libraries, museums, and specific local school/learning portals (`lerntraining.de`, Mentimeter integration).
-* **Automated Weekly Research:** Powered by a GitHub Action (`Weekly Whitelist Researcher`) that periodically checks external sources for relevant new kids' content and proposes updates via Issues.
+The management of the whitelist in the FRITZ!Box parental control profile depends on your installed **FRITZ!OS version**. Please use the appropriate guide for your system:
+
+### For FRITZ!OS 8.2.5 & 8.5 (Current Versions)
+
+1. **Access the Export File:** 
+   * Open the file **`whitelist_export.txt`** in this repository (or copy its raw content to your clipboard using the "Raw" button).
+2. **Open the User Interface:** 
+   * Go to `http://fritz.box` in your browser and log in as an administrator.
+3. **Open Filter Settings:** 
+   * Navigate to **Internet** -> **Filters** -> **Parental Controls** tab.
+4. **Edit Profile:** 
+   * Click the **Edit (pencil) icon** next to the desired child profile.
+5. **Open Allowance List:** 
+   * Scroll down to the **Internet Sites** or **Access Restrictions** section.
+   * Select the option **"Filter internet sites (Whitelist / Allowance list active)"**.
+6. **Insert Domains:** 
+   * Paste the copied domains from `whitelist_export.txt` as a block into the designated text field (*Allowed internet sites*). 
+   * *Note:* FRITZ!OS 8.2.5+ processes block copies and pure domain lists extremely reliably. Since the export file contains no comments or blank lines, you can paste the entire content without any errors.
+7. **Save:** 
+   * Click **Apply** at the bottom. The allowance will take effect immediately for the assigned device.
 
 ---
 
-## 🚀 Usage with FRITZ!Box
+## ⚙️ How the Automation Works
 
-1. Open your **FRITZ!Box** web interface (`http://fritz.box`).
-2. Navigate to **Internet → Filters → Lists** (*Internet → Filter → Listen*).
-3. Click on **Allowed Web Pages (Whitelist)** (*Erlaubte Internetseiten*).
-4. Open [`whitelist.txt`](./whitelist.txt) in **Raw** mode, copy the full domain list, and paste it into your FRITZ!Box filter list.
-5. Assign the profile to your child's device under **Internet → Filters → Access Profiles** (*Zugangsprofile*).
+1. **Weekly Scan:** Every Monday, the system scans RSS feeds (e.g., Seitenstark, Internet-ABC, Klicksafe) and verified allowlists for new, child-safe domains.
+2. **Review via GitHub Issue:** An issue is automatically created containing all proposals with clickable links.
+3. **Review & Approval:** You inspect the sites via a click (opening in a new tab), check the boxes for the desired domains, and **close the issue**.
+4. **Automated Sync:** A script automatically sorts the new domains into the appropriate categories of `whitelist.txt` and updates `whitelist_export.txt` in seconds.
 
 ---
 
