@@ -23,12 +23,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-          cache: 'pip'
-
-      - name: Install Dependencies (Optional)
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Execute Research Script
         run: python scripts/research_updates.py
@@ -44,14 +38,12 @@ jobs:
             echo "No new domain proposals found this week."
           fi
 
-      - name: Create or Update Proposal Issue
+      - name: Create Proposal Issue
         if: steps.check_candidates.outputs.has_candidates == 'true'
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: '🔍 Weekly Whitelist Domain Proposals'
           content-filepath: './suggestions.md'
           labels: |
             whitelist-proposal
             enhancement
-          update-existing: true
-          search-existing: open
