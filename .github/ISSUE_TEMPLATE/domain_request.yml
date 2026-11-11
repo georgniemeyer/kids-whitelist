@@ -1,0 +1,21 @@
+name: "🌐 Domain Request"
+description: "Request a new internet site for the child-safe whitelist!"
+title: "[Request]: "
+labels: ["child-request"]
+body:
+  - type: input
+    id: domain
+    attributes:
+      label: "Which website would you like to visit?"
+      description: "Enter the domain address here (e.g., example.com)."
+      placeholder: "example.com"
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: "Why do you need this site?"
+      description: "Briefly explain why this site is needed (e.g., for school, homework, or learning)."
+      placeholder: "For my project about..."
+    validations:
+      required: true
