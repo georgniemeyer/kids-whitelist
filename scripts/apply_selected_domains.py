@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Applies checked domains from a GitHub Issue into whitelist.txt,
-classifies them into meaningful pedagogical & technical categories,
+classifies them into 11 distinct pedagogical & technical categories,
 integrates personal custom domains from custom_whitelist.txt,
 and generates a clean, comment-free export file for FRITZ!Box import.
 """
@@ -14,25 +14,48 @@ WHITELIST_PATH = "whitelist.txt"
 CUSTOM_WHITELIST_PATH = "custom_whitelist.txt"
 EXPORT_PATH = "whitelist_export.txt"
 
-# Sprechende Kategorien inklusive technischer Infrastruktur & CDNs
+# 11 disjunkte, saubere Kategorien mit entsprechenden Erkennungs-Keywords
 CATEGORIES = {
-    "Schule, Lernen & Medienkompetenz": [
-        "schule", "lernen", "recht", "fragfinn", "klicksafe", "antolin", 
-        "alphabet", "internet-abc", "ki-kindgerecht"
+    "01. Kinder-Suchmaschinen & Jugendschutz": [
+        "fragfinn", "blindekuh", "klicksafe", "internet-abc", "jugendschutz"
     ],
-    "Wissen, Lexikon & Nachrichten": [
-        "duda", "news", "nachrichten", "wissen", "lexikon", "radio", 
-        "reporter", "klassik", "frieden", "naturpark", "detektive"
+    "02. Geprüfte Schul- und Lernportale": [
+        "schule", "lernen", "unterricht", "lo-net", "moodle", "maus.schule", 
+        "Antolin", "alphabet", "ki-kindgerecht"
     ],
-    "Technische Infrastruktur & CDNs": [
+    "03. Allgemeines Wissen & Lexika": [
+        "wissen", "lexikon", "hanisauland", "blinde-kuh", "helles-koepfchen"
+    ],
+    "04. Nachrichten für Kinder, ÖRR & Medien": [
+        "duda", "news", "nachrichten", "logo", "kika", "wdr", "zdftivi", 
+        "radio", "reporter", "medienkompetenz", "frieden", "politik"
+    ],
+    "05. Bücher, Lesen, Hörspiele & Musik": [
+        "lesen", "antolin", "buch", "bibliothek", "hoerspiel", "musik", 
+        "klassik", "junge-klassik", "ohrenkuss"
+    ],
+    "06. Hobby, Sport, Tiere & Natur": [
+        "sport", "tier", "natur", "naturpark", "detektive", "garten", "pferd", "fussball"
+    ],
+    "07. Kreatives, Basteln & Gaming (Sicher)": [
+        "basteln", "malen", "kreativ", "spiel", "spielaffe", "kinderspiele"
+    ],
+    "08. Verlage, Comics & Unterhaltung": [
+        "verlag", "comic", "micky", "maus", "unterhaltung", "carlsen", "ravenstein"
+    ],
+    "09. Kindermuseen, Theater & Kultur": [
+        "museum", "theater", "kultur", "kunst", "oper", "ballett", "jugendkunst"
+    ],
+    "10. Regionales, Heimat & Norddeutschland": [
+        "norddeutschland", "hamburg", "schleswig", "bremen", "niedersachsen", 
+        "heimat", "region", "loki-schmidt"
+    ],
+    "11. Technische Infrastruktur & CDNs": [
         "cdn", "static", "assets", "fonts", "api", "cloudfront", 
         "akamai", "fastly", "cloudflare", "jsdelivr", "unpkg", "storage"
     ],
-    "Persönliche Custom Domains": [
-        # Sammelkategorie für manuell in custom_whitelist.txt hinterlegte Einträge
-    ],
-    "Kinderseiten, Spiele & Kreativität": [
-        # Fallback für alle anderen geprüften Portale
+    "12. Persönliche Custom Domains": [
+        # Wird exklusiv aus der custom_whitelist.txt befüllt
     ]
 }
 
@@ -41,12 +64,15 @@ def classify_domain(domain: str) -> str:
     """Weist eine Domain basierend auf Schlüsselwörtern einer passenden Kategorie zu."""
     d_lower = domain.lower()
     for cat_name, keywords in CATEGORIES.items():
-        if cat_name in ["Kinderseiten, Spiele & Kreativität", "Persönliche Custom Domains"]:
+        if cat_name in ["12. Persönliche Custom Domains", "03. Allgemeines Wissen & Lexika"]:
+            # Allgemeine Lexika als sanfter Fallback vor dem ultimativen Rest
             continue
         for kw in keywords:
             if kw in d_lower:
                 return cat_name
-    return "Kinderseiten, Spiele & Kreativität"
+    
+    # Fallback für sonstige Wissens-/Allgemeinseiten
+    return "03. Allgemeines Wissen & Lexika"
 
 
 def clean_domain_line(line: str) -> str:
@@ -59,7 +85,7 @@ def clean_domain_line(line: str) -> str:
 
 
 def main():
-    # 1. Checked Domains aus dem Issue auslesen (falls durchgelaufen)
+    # 1. Checked Domains aus dem Issue auslesen (falls vorhanden)
     selected_domains = []
     if ISSUE_BODY:
         checked_pattern = re.compile(
@@ -69,44 +95,53 @@ def main():
         selected_domains = checked_pattern.findall(ISSUE_BODY)
 
     cleaned_new_domains = [d.strip().lower() for d in selected_domains if d.strip()]
-    if cleaned_new_domains:
-        print(f"Found {len(cleaned_new_domains)} checked domains from issue: {cleaned_new_domains}")
 
     # Speicher für alle Domains nach Kategorie
     all_domains_by_category = {cat: set() for cat in CATEGORIES.keys()}
 
-    # 2. Bestehende Master-Whitelist einlesen (falls vorhanden)
+    # 2. Bestehende Master-Whitelist einlesen (bestehende Kategorien bewahren)
     if os.path.exists(WHITELIST_PATH):
+        current_cat = "03. Allgemeines Wissen & Lexika"
         with open(WHITELIST_PATH, "r", encoding="utf-8") as f:
             for line in f:
+                line_str = line.strip()
+                if line_str.startswith("#") and "KATEGORIE:" in line_str:
+                    for cat in CATEGORIES.keys():
+                        if cat.lower() in line_str.lower():
+                            current_cat = cat
+                            break
+                    continue
+                
                 d = clean_domain_line(line)
                 if d:
-                    assigned_cat = classify_domain(d)
-                    all_domains_by_category[assigned_cat].add(d)
+                    # Wenn es in Custom liegt, dort lassen, sonst neu klassifizieren
+                    if current_cat == "12. Persönliche Custom Domains":
+                        all_domains_by_category["12. Persönliche Custom Domains"].add(d)
+                    else:
+                        assigned_cat = classify_domain(d)
+                        all_domains_by_category[assigned_cat].add(d)
 
     # 3. Custom-Whitelist einlesen (custom_whitelist.txt im Main-Verzeichnis)
     if os.path.exists(CUSTOM_WHITELIST_PATH):
-        print(f"Reading custom domains from '{CUSTOM_WHITELIST_PATH}'...")
         with open(CUSTOM_WHITELIST_PATH, "r", encoding="utf-8") as f:
             for line in f:
                 d = clean_domain_line(line)
                 if d:
-                    all_domains_by_category["Persönliche Custom Domains"].add(d)
+                    all_domains_by_category["12. Persönliche Custom Domains"].add(d)
     else:
-        # Erstelle eine leere Beispieldatei, falls noch nicht vorhanden
         with open(CUSTOM_WHITELIST_PATH, "w", encoding="utf-8") as f:
-            f.write("# Tragen Sie hier Ihre eigenen Custom Domains ein (eine pro Zeile)\n")
+            f.write("# Please list here any domain that you want to add to the global whitelist.\n")
+            f.write("# Only one per line.\n")
 
     # 4. Neue Domains aus dem Issue einsortieren
     for domain in cleaned_new_domains:
         target_cat = classify_domain(domain)
-        # Prüfen, ob Domain global schon existiert
         exists_already = any(domain in domain_set for domain_set in all_domains_by_category.values())
         if not exists_already:
             all_domains_by_category[target_cat].add(domain)
             print(f"Added '{domain}' to category '{target_cat}'")
 
-    # 5. Master-Whitelist formatiert mit allen Kategorien neu schreiben
+    # 5. Master-Whitelist formatiert mit den neuen Kategorien neu schreiben
     with open(WHITELIST_PATH, "w", encoding="utf-8") as master:
         master.write("# ==========================================\n")
         master.write("# FRITZ!Box Master Whitelist (Kindersicher)\n")
@@ -130,7 +165,7 @@ def main():
         for domain in sorted(all_flat_domains):
             exp.write(f"{domain}\n")
 
-    print(f"Successfully updated master categories, included custom domains, and generated '{EXPORT_PATH}' with {len(all_flat_domains)} total domains.")
+    print(f"Successfully updated master categories and generated '{EXPORT_PATH}' with {len(all_flat_domains)} total domains.")
 
 
 if __name__ == "__main__":
