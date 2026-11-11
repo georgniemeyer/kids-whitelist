@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Applies checked domains from a GitHub Issue into whitelist.txt,
-intelligently sorting them into meaningful pedagogical categories,
+classifies them into meaningful pedagogical & technical categories,
+integrates personal custom domains from custom_whitelist.txt,
 and generates a clean, comment-free export file for FRITZ!Box import.
 """
 
@@ -10,9 +11,10 @@ import re
 
 ISSUE_BODY = os.environ.get("ISSUE_BODY", "")
 WHITELIST_PATH = "whitelist.txt"
+CUSTOM_WHITELIST_PATH = "custom_whitelist.txt"
 EXPORT_PATH = "whitelist_export.txt"
 
-# Definierte, sprechende Kategorien mit Schlüsselwörtern zur automatischen Zuordnung
+# Sprechende Kategorien inklusive technischer Infrastruktur & CDNs
 CATEGORIES = {
     "Schule, Lernen & Medienkompetenz": [
         "schule", "lernen", "recht", "fragfinn", "klicksafe", "antolin", 
@@ -22,8 +24,15 @@ CATEGORIES = {
         "duda", "news", "nachrichten", "wissen", "lexikon", "radio", 
         "reporter", "klassik", "frieden", "naturpark", "detektive"
     ],
+    "Technische Infrastruktur & CDNs": [
+        "cdn", "static", "assets", "fonts", "api", "cloudfront", 
+        "akamai", "fastly", "cloudflare", "jsdelivr", "unpkg", "storage"
+    ],
+    "Persönliche Custom Domains": [
+        # Sammelkategorie für manuell in custom_whitelist.txt hinterlegte Einträge
+    ],
     "Kinderseiten, Spiele & Kreativität": [
-        # Standard-Fallback für alle anderen geprüften Kinderportale
+        # Fallback für alle anderen geprüften Portale
     ]
 }
 
@@ -32,7 +41,7 @@ def classify_domain(domain: str) -> str:
     """Weist eine Domain basierend auf Schlüsselwörtern einer passenden Kategorie zu."""
     d_lower = domain.lower()
     for cat_name, keywords in CATEGORIES.items():
-        if cat_name == "Kinderseiten, Spiele & Kreativität":
+        if cat_name in ["Kinderseiten, Spiele & Kreativität", "Persönliche Custom Domains"]:
             continue
         for kw in keywords:
             if kw in d_lower:
@@ -50,62 +59,54 @@ def clean_domain_line(line: str) -> str:
 
 
 def main():
-    if not ISSUE_BODY:
-        print("No issue body found.")
-        return
-
-    # Regex zum Extrahieren der angehakten Domains aus dem Issue
-    checked_pattern = re.compile(
-        r'-\s*\[[xX]\]\s*(?:\[)?\s*`([^`]+)`\s*(?:\]\s*\([^)]+\))?',
-        re.DOTALL
-    )
-    selected_domains = checked_pattern.findall(ISSUE_BODY)
-
-    if not selected_domains:
-        print("No checked domains found in issue body.")
-        return
+    # 1. Checked Domains aus dem Issue auslesen (falls durchgelaufen)
+    selected_domains = []
+    if ISSUE_BODY:
+        checked_pattern = re.compile(
+            r'-\s*\[[xX]\]\s*(?:\[)?\s*`([^`]+)`\s*(?:\]\s*\([^)]+\))?',
+            re.DOTALL
+        )
+        selected_domains = checked_pattern.findall(ISSUE_BODY)
 
     cleaned_new_domains = [d.strip().lower() for d in selected_domains if d.strip()]
-    print(f"Found {len(cleaned_new_domains)} checked domains to add: {cleaned_new_domains}")
+    if cleaned_new_domains:
+        print(f"Found {len(cleaned_new_domains)} checked domains from issue: {cleaned_new_domains}")
 
-    # 1. Alle bisherigen Domains aus der Master-Whitelist einlesen (bestehende behalten)
+    # Speicher für alle Domains nach Kategorie
     all_domains_by_category = {cat: set() for cat in CATEGORIES.keys()}
-    
+
+    # 2. Bestehende Master-Whitelist einlesen (falls vorhanden)
     if os.path.exists(WHITELIST_PATH):
-        current_cat = "Kinderseiten, Spiele & Kreativität"
         with open(WHITELIST_PATH, "r", encoding="utf-8") as f:
             for line in f:
-                line_str = line.strip()
-                # Versuche bestehende Kategorien aus Kommentaren zu erkennen
-                if line_str.startswith("#") and "KATEGORIE:" in line_str:
-                    for cat in CATEGORIES.keys():
-                        if cat.lower() in line_str.lower():
-                            current_cat = cat
-                            break
-                    continue
-                
                 d = clean_domain_line(line)
                 if d:
-                    # In welche Kategorie gehörte sie bisher oder neu einteilen?
                     assigned_cat = classify_domain(d)
-                    # Falls die alte Kategorie spezifischer war, behalten wir sie bei, ansonsten neu klassifizieren
-                    all_domains_by_category.setdefault(assigned_cat, set()).add(d)
+                    all_domains_by_category[assigned_cat].add(d)
 
-    # 2. Neue Domains hinzufügen und intelligent einsortieren
-    added_count = 0
+    # 3. Custom-Whitelist einlesen (custom_whitelist.txt im Main-Verzeichnis)
+    if os.path.exists(CUSTOM_WHITELIST_PATH):
+        print(f"Reading custom domains from '{CUSTOM_WHITELIST_PATH}'...")
+        with open(CUSTOM_WHITELIST_PATH, "r", encoding="utf-8") as f:
+            for line in f:
+                d = clean_domain_line(line)
+                if d:
+                    all_domains_by_category["Persönliche Custom Domains"].add(d)
+    else:
+        # Erstelle eine leere Beispieldatei, falls noch nicht vorhanden
+        with open(CUSTOM_WHITELIST_PATH, "w", encoding="utf-8") as f:
+            f.write("# Tragen Sie hier Ihre eigenen Custom Domains ein (eine pro Zeile)\n")
+
+    # 4. Neue Domains aus dem Issue einsortieren
     for domain in cleaned_new_domains:
         target_cat = classify_domain(domain)
         # Prüfen, ob Domain global schon existiert
         exists_already = any(domain in domain_set for domain_set in all_domains_by_category.values())
         if not exists_already:
-            all_domains_by_category.setdefault(target_cat, set()).add(domain)
+            all_domains_by_category[target_cat].add(domain)
             print(f"Added '{domain}' to category '{target_cat}'")
-            added_count += 1
 
-    if added_count == 0:
-        print("No new unique domains were added (all already present).")
-
-    # 3. Master-Whitelist formatiert mit sprechenden Kategorien neu schreiben
+    # 5. Master-Whitelist formatiert mit allen Kategorien neu schreiben
     with open(WHITELIST_PATH, "w", encoding="utf-8") as master:
         master.write("# ==========================================\n")
         master.write("# FRITZ!Box Master Whitelist (Kindersicher)\n")
@@ -120,7 +121,7 @@ def main():
                     master.write(f"{domain}\n")
                 master.write("\n")
 
-    # 4. Saubere FRITZ!Box Export-Datei generieren (flach, alphabetisch, keine Kommentare)
+    # 6. Saubere FRITZ!Box Export-Datei generieren (flach, alphabetisch, keine Kommentare)
     all_flat_domains = set()
     for domain_set in all_domains_by_category.values():
         all_flat_domains.update(domain_set)
@@ -129,7 +130,7 @@ def main():
         for domain in sorted(all_flat_domains):
             exp.write(f"{domain}\n")
 
-    print(f"Successfully updated master categories and generated '{EXPORT_PATH}' with {len(all_flat_domains)} total domains.")
+    print(f"Successfully updated master categories, included custom domains, and generated '{EXPORT_PATH}' with {len(all_flat_domains)} total domains.")
 
 
 if __name__ == "__main__":
