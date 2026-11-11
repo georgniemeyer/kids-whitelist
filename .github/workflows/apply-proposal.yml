@@ -1,0 +1,46 @@
+name: Apply Checked Whitelist Proposals
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  apply-domains:
+    name: Parse Checked Domains and Update Whitelist
+    # Only run if the closed issue carries the 'whitelist-proposal' label
+    if: contains(github.event.issue.labels.*.name, 'whitelist-proposal')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Extract Checked Domains and Update Whitelist
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python scripts/apply_selected_domains.py
+
+      - name: Commit and Push Changes to Repository
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Pull latest changes to avoid fast-forward conflicts
+          git pull origin main || git pull origin master
+          
+          git add whitelist.txt
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "feat: auto-add approved domains from Issue #${{ github.event.issue.number }}"
+            git push
+          fi
