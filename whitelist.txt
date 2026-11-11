@@ -3,63 +3,38 @@
 # ==========================================
 
 # ==========================================
-# KATEGORIE: Schule, Lernen & Medienkompetenz
+# KATEGORIE: 01. Kinder-Suchmaschinen & Jugendschutz
 # ==========================================
-antolin.de
 cdn.fragfinn.de
 eltern.fragfinn.de
 fragfinn.de
 images.fragfinn.de
 internet-abc.de
-ki-kindgerecht.de
 klicksafe.de
+
+# ==========================================
+# KATEGORIE: 02. Geprüfte Schul- und Lernportale
+# ==========================================
+ki-kindgerecht.de
 klimafit-schule.de
-recht-kinderleicht.de
 schlauer-lernen.de
 schlauerlernen.de
 skaten-lernen.de
 
 # ==========================================
-# KATEGORIE: Wissen, Lexikon & Nachrichten
-# ==========================================
-klexikon.zum.de
-mikado-radio.de
-naturdetektive.bfn.de
-
-# ==========================================
-# KATEGORIE: Technische Infrastruktur & CDNs
-# ==========================================
-ajax.googleapis.com
-bootstrap-cdn.com
-cdnjs.cloudflare.com
-cloudflare.com
-fonts.googleapis.com
-gstatic.com
-jsdelivr.net
-static-kika.de
-static-zdf.de
-unpkg.com
-vimeocdn.com
-zdf-cdn.de
-
-# ==========================================
-# KATEGORIE: Kinderseiten, Spiele & Kreativität
+# KATEGORIE: 03. Allgemeines Wissen & Lexika
 # ==========================================
 abenteuer-regenwald.de
 abfrager.de
-amigo-spiele.de
 anton.app
 arche-warder.de
 ard-ready.de
 ardmediathek.de
-arena-verlag.de
 arriba-erlebnisbad.de
 asterix.com
 auswandererhaus-bremerhaven.de
-basteln-gestalten.de
 baudichschlau.de
 beltz.de
-besser-basteln.de
 blinde-kuh.de
 bmfsfj.de
 boersenblatt.net
@@ -68,16 +43,11 @@ br-kinder.de
 br.de
 buecherhallen.de
 bzkj.de
-carlsen.de
 cavallo.de
-cbj-verlag.de
 checkeins.de
 conni.de
 coppenrath.de
 darc.de
-deutsches-museum.de
-deutsches-sculpturenmuseum.de
-deutschlandfunkkultur.de
 die-bloggerbande.de
 die-drei-ausrufezeichen.de
 die-drei-fragezeichen.de
@@ -103,32 +73,23 @@ grundschulkoenig.de
 gutenachtgeschichte.org
 hagenbeck.de
 haithabu.de
-hamburg.de
 hanisauland.de
 hansa-park.de
 heide-park.de
 helles-koepfchen.de
-hoerspielprojekt.de
 janosch.de
 jim-knopf.de
 jquery.com
-jugend-museum.de
 jugendfeuerwehr.de
 jusprog.de
 kakadu.de
-kika.de
-kikaninchen.de
 kinder-ministerium.de
-kinderkultur-nord.de
-kindermuseum-hamburg.de
 kindernetnetz.de
 kindernetz.de
-klick-kindermuseum.de
+klexikon.zum.de
 klima-sucher.de
 klimahaus-bremerhaven.de
-knesebeck-verlag.de
 kosmos.de
-kultur-fuer-kinder.de
 labbe.de
 landesmuseen.sh
 lauras-stern.de
@@ -138,29 +99,19 @@ lese-juri.de
 leseliebe.de
 lesepunkte.de
 lindgren.se
-loewe-verlag.de
-logo.de
-lustiges-taschenbuch.de
 malvorlagen-kostenlos.de
-maritimes-museum-hamburg.de
 mathe-im-leben.de
 mathebibel.de
-media-kika.de
 medienwerkstatt-online.de
-meeresmuseum.de
 meine-stadt.de
 meine-tonies.de
-mensch-und-natur.de
 michel-aus-loenneberga.de
 miniatur-wunderland.de
-mkg-hamburg.de
 multimar-wattforum.de
-museum-fuehrungen-hamburg.de
 naju-wiki.de
 naju.de
 nationalpark-wattenmeer.de
 ndr.de
-neuneinhalb.wdr.de
 oetinger.de
 ohnsorg.de
 ohrenbaer.de
@@ -169,33 +120,26 @@ orf.at
 ostsee-info-center.de
 ozeaneum.de
 pettersson-findus.de
-pferde-tipps-fuer-kids.de
-pferde-welt.de
-planetarium-hamburg.de
 pumuckl.de
 ravensburger.de
+recht-kinderleicht.de
 religionen-entdecken.de
 schach-fuer-kinder.de
 schachfeld.de
 schau-hin.info
 schema.org
-schleswig-holstein.de
 schloss-gottorf.de
 scoyo.de
 seehundstation-norddeich.de
 seitenstark.de
 sofatutor.com
-speicherstadtmuseum.de
 srf.ch
 starke-kids.de
 stiftunglesung.de
 swr.de
 tessloff.com
-thalia-theater.de
 thienemann-esslinger.de
 thw-jugend.de
-tierpark-gettorf.de
-tierschutzbund.de
 tivi.de
 tobi-krell.de
 tommi.de
@@ -205,15 +149,12 @@ tove-jansson.com
 turnen.de
 typekit.net
 usborne.de
-vhs-hamburg.de
 vimeo.com
 vorleser.net
 w3.org
 waddensea-worldheritage.org
 wasistwas.de
 wattforum.de
-wdr.de
-wdrmaus.de
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de
@@ -225,4 +166,92 @@ zdf.de
 zum.de
 zzzebra.de
 zzzepp.de
+
+# ==========================================
+# KATEGORIE: 04. Nachrichten für Kinder, ÖRR & Medien
+# ==========================================
+frieden-fragen.de
+kika.de
+kikaninchen.de
+logo.de
+media-kika.de
+mikado-radio.de
+neuneinhalb.wdr.de
+static-kika.de
+wdr.de
+wdrmaus.de
+
+# ==========================================
+# KATEGORIE: 05. Bücher, Lesen, Hörspiele & Musik
+# ==========================================
+antolin.de
+hoerspielprojekt.de
+lustiges-taschenbuch.de
+
+# ==========================================
+# KATEGORIE: 06. Hobby, Sport, Tiere & Natur
+# ==========================================
+mensch-und-natur.de
+naturdetektive.bfn.de
+pferde-tipps-fuer-kids.de
+pferde-welt.de
+tierpark-gettorf.de
+tierschutzbund.de
+
+# ==========================================
+# KATEGORIE: 07. Kreatives, Basteln & Gaming (Sicher)
+# ==========================================
+amigo-spiele.de
+basteln-gestalten.de
+besser-basteln.de
+
+# ==========================================
+# KATEGORIE: 08. Verlage, Comics & Unterhaltung
+# ==========================================
+arena-verlag.de
+carlsen.de
+cbj-verlag.de
+knesebeck-verlag.de
+loewe-verlag.de
+
+# ==========================================
+# KATEGORIE: 09. Kindermuseen, Theater & Kultur
+# ==========================================
+deutsches-museum.de
+deutsches-sculpturenmuseum.de
+deutschlandfunkkultur.de
+jugend-museum.de
+kinderkultur-nord.de
+kindermuseum-hamburg.de
+klick-kindermuseum.de
+kultur-fuer-kinder.de
+maritimes-museum-hamburg.de
+meeresmuseum.de
+museum-fuehrungen-hamburg.de
+speicherstadtmuseum.de
+thalia-theater.de
+
+# ==========================================
+# KATEGORIE: 10. Regionales, Heimat & Norddeutschland
+# ==========================================
+hamburg.de
+mkg-hamburg.de
+planetarium-hamburg.de
+schleswig-holstein.de
+vhs-hamburg.de
+
+# ==========================================
+# KATEGORIE: 11. Technische Infrastruktur & CDNs
+# ==========================================
+ajax.googleapis.com
+bootstrap-cdn.com
+cdnjs.cloudflare.com
+cloudflare.com
+fonts.googleapis.com
+gstatic.com
+jsdelivr.net
+static-zdf.de
+unpkg.com
+vimeocdn.com
+zdf-cdn.de
 
