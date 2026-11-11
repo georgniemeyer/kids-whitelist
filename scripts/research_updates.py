@@ -2,9 +2,8 @@
 """
 FRITZ!Box Whitelist Research Script (Production Ready)
 ----------------------------------------------------
-Periodically checks active external sources and parses RSS feeds
-from renowned pedagogical parent & media guides (Internet-ABC, Klicksafe, Seitenstark)
-to discover new, child-safe domain candidates with secure links opening in new tabs.
+Checks active external sources and parses RSS feeds, automatically extracting
+and reducing subdomains to their main base domains to keep the whitelist clean.
 """
 
 import os
@@ -54,8 +53,27 @@ IGNORED_DOMAINS = {
 }
 
 
+def get_base_domain(hostname: str) -> str:
+    """
+    Reduziert Subdomains auf die echten Basis-Domains (Second-Level-Domains),
+    um Redundanzen in der Whitelist zu vermeiden (z.B. reporter.fragfinn.de -> fragfinn.de).
+    Beachtet gängige Endungen wie .de, .com, .net sowie zusammengesetzte Endungen wie .co.uk, .schule.de.
+    """
+    parts = hostname.split(".")
+    if len(parts) <= 2:
+        return hostname
+    
+    # Spezielle deutsche/Schul-Endungen abfangen (z.B. .schule.de)
+    if len(parts) >= 3 and parts[-2] in ("schule", "gov", "edu", "mil") and len(parts[-1]) == 2:
+        if len(parts) >= 4:
+            return f"{parts[-3]}.{parts[-2]}.{parts[-1]}"
+    
+    # Standard-Verhalten für normale TLDs (z.B. sub.domain.de -> domain.de)
+    return f"{parts[-2]}.{parts[-1]}"
+
+
 def sanitize_domain(raw_entry: str) -> str:
-    """Cleans raw text input, URLs, or paths and extracts a normalized base domain."""
+    """Cleans raw text input, extracts hostname, and normalizes to the base domain."""
     entry = raw_entry.strip().lower()
     
     if not entry or entry.startswith(("#", "javascript:", "mailto:")):
@@ -77,7 +95,9 @@ def sanitize_domain(raw_entry: str) -> str:
             
         if "." in hostname and not re.match(r"^\d{1,3}(\.\d{1,3}){3}$", hostname):
             if hostname not in IGNORED_DOMAINS and len(hostname) > 3:
-                return hostname
+                # Auf die reine Basis-Domain reduzieren
+                base_domain = get_base_domain(hostname)
+                return base_domain
     except Exception:
         pass
     
@@ -178,7 +198,6 @@ def main():
 
     sorted_domains = sorted(candidates_with_sources.keys())
     
-    # 4. Write Markdown Report with target="_blank" HTML links for GitHub Issues
     with open(OUTPUT_REPORT_PATH, "w", encoding="utf-8") as report:
         report.write("## 🔍 Weekly FRITZ!Box Whitelist Research Report\n\n")
         
@@ -196,8 +215,6 @@ def main():
             )
             for domain in sorted_domains:
                 sources_str = ", ".join(sorted(candidates_with_sources[domain]))
-                # Compact single-line HTML link opening in a new tab
-                # report.write(f"- [ ] <a href=\"https://{domain}\" target=\"_blank\">`{domain}`</a> *(Source: {sources_str})*\n")
                 report.write(f"- [ ] [`{domain}`](https://{domain}) *(Source: {sources_str})*\n")
                 
             report.write(
