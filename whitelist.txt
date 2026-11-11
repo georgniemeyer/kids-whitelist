@@ -22,7 +22,6 @@ skaten-lernen.de
 # ==========================================
 # KATEGORIE: Wissen, Lexikon & Nachrichten
 # ==========================================
-frieden-fragen.de
 klexikon.zum.de
 mikado-radio.de
 naturdetektive.bfn.de
