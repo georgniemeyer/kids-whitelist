@@ -30,8 +30,10 @@ cbj-verlag.de
 cdn.fragfinn.de
 cdnjs.cloudflare.com
 checkeins.de
+checky-kinderzeitung.de
 cloudflare.com
 conni.de
+coollama.de
 coppenrath.de
 darc.de
 deutsches-museum.de

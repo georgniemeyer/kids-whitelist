@@ -46,6 +46,7 @@ bzkj.de
 cavallo.de
 checkeins.de
 conni.de
+coollama.de
 coppenrath.de
 darc.de
 die-bloggerbande.de
@@ -254,4 +255,9 @@ static-zdf.de
 unpkg.com
 vimeocdn.com
 zdf-cdn.de
+
+# ==========================================
+# KATEGORIE: 12. Persönliche Custom Domains
+# ==========================================
+checky-kinderzeitung.de
 
