@@ -1,0 +1,57 @@
+name: Weekly Whitelist Researcher
+
+on:
+  schedule:
+    # Trigger the workflow every Monday at 07:00 UTC
+    - cron: '0 7 * * 1'
+  workflow_dispatch: # Allow manual execution via the GitHub Actions interface
+
+jobs:
+  research-and-suggest:
+    name: Run Research Script & Update Proposal Issue
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies (Optional)
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Execute Research Script
+        run: python scripts/research_updates.py
+
+      - name: Check if New Candidates Were Found
+        id: check_candidates
+        run: |
+          if grep -q "\- \[ \]" ./suggestions.md; then
+            echo "has_candidates=true" >> $GITHUB_OUTPUT
+            echo "New domain proposals discovered."
+          else
+            echo "has_candidates=false" >> $GITHUB_OUTPUT
+            echo "No new domain proposals found this week."
+          fi
+
+      - name: Create or Update Proposal Issue
+        if: steps.check_candidates.outputs.has_candidates == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: '🔍 Weekly Whitelist Domain Proposals'
+          content-filepath: './suggestions.md'
+          labels: |
+            whitelist-proposal
+            enhancement
+          # Prevents duplicate issues by re-using or updating an existing open issue with the same title
+          update-existing: true
+          search-existing: open
