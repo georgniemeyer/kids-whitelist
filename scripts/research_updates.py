@@ -4,7 +4,7 @@ FRITZ!Box Whitelist Research Script (Production Ready)
 ----------------------------------------------------
 Periodically checks active external sources and parses RSS feeds
 from renowned pedagogical parent & media guides (Internet-ABC, Klicksafe, Seitenstark)
-to discover new, child-safe domain candidates safely and reliably.
+to discover new, child-safe domain candidates with clickable links for easy review.
 """
 
 import os
@@ -46,7 +46,7 @@ EDITORIAL_FEEDS = [
     },
 ]
 
-# Strict blacklist of domains that should never be proposed (infrastructure, search, social media)
+# Strict blacklist of domains that should never be proposed
 IGNORED_DOMAINS = {
     "facebook.com", "instagram.com", "twitter.com", "x.com", "youtube.com",
     "google.com", "google.de", "bing.com", "yahoo.com", "t.co", "bit.ly", 
@@ -55,17 +55,12 @@ IGNORED_DOMAINS = {
 
 
 def sanitize_domain(raw_entry: str) -> str:
-    """
-    Cleans raw text input, URLs, or paths and extracts a normalized base domain.
-    Returns an empty string if the entry is invalid, an IP, or an ignored domain.
-    """
+    """Cleans raw text input, URLs, or paths and extracts a normalized base domain."""
     entry = raw_entry.strip().lower()
     
-    # Ignore empty lines, comments, or anchor links
     if not entry or entry.startswith(("#", "javascript:", "mailto:")):
         return ""
     
-    # Prepend schema if missing to allow urlparse to process correctly
     if not entry.startswith(("http://", "https://")):
         entry = "http://" + entry
         
@@ -75,14 +70,11 @@ def sanitize_domain(raw_entry: str) -> str:
         if not hostname:
             return ""
         
-        # Remove trailing dot if present
         hostname = hostname.rstrip(".")
         
-        # Strip leading 'www.' for consistent root domain matching
         if hostname.startswith("www."):
             hostname = hostname[4:]
             
-        # Validation checks: Must contain a dot, no IP addresses, no ignored domains
         if "." in hostname and not re.match(r"^\d{1,3}(\.\d{1,3}){3}$", hostname):
             if hostname not in IGNORED_DOMAINS and len(hostname) > 3:
                 return hostname
@@ -138,16 +130,13 @@ def parse_rss_feed(feed_url: str) -> set:
             xml_data = response.read()
             root = ET.fromstring(xml_data)
             
-            # Search all RSS items
             for item in root.findall(".//item"):
-                # 1. Check <link> tag
                 link_elem = item.find("link")
                 if link_elem is not None and link_elem.text:
                     domain = sanitize_domain(link_elem.text)
                     if domain:
                         found_domains.add(domain)
                 
-                # 2. Check <description> or content snippets for embedded URLs
                 desc_elem = item.find("description")
                 if desc_elem is not None and desc_elem.text:
                     urls = re.findall(r'https?://[^\s<>"]+|www\.[^\s<>"]+', desc_elem.text)
@@ -164,7 +153,6 @@ def parse_rss_feed(feed_url: str) -> set:
 def main():
     print("Starting secure FRITZ!Box Whitelist Research Process...")
     
-    # 1. Load active local whitelist
     local_domains = load_local_whitelist(LOCAL_WHITELIST_PATH)
     active_count = len(local_domains)
     remaining_budget = FRITZBOX_DOMAIN_LIMIT - active_count
@@ -172,10 +160,8 @@ def main():
     print(f"Loaded {active_count} active domains from local whitelist.")
     print(f"Remaining capacity for FRITZ!Box limit (500 max): {remaining_budget} slots.")
 
-    # Dictionary mapping domain -> set of source names for traceability
     candidates_with_sources = {}
 
-    # 2. Process Text Repositories
     for source in EXTERNAL_SOURCES:
         print(f"Scanning repository: {source['name']}...")
         remote_domains = fetch_remote_domains(source["url"])
@@ -183,7 +169,6 @@ def main():
             if domain not in local_domains:
                 candidates_with_sources.setdefault(domain, set()).add(source["name"])
 
-    # 3. Process RSS Feeds
     for feed in EDITORIAL_FEEDS:
         print(f"Parsing RSS feed: {feed['name']}...")
         rss_domains = parse_rss_feed(feed["url"])
@@ -193,7 +178,7 @@ def main():
 
     sorted_domains = sorted(candidates_with_sources.keys())
     
-    # 4. Write Markdown Report for GitHub Action Issue
+    # 4. Write Markdown Report with Clickable Links for GitHub Issues
     with open(OUTPUT_REPORT_PATH, "w", encoding="utf-8") as report:
         report.write("## 🔍 Weekly FRITZ!Box Whitelist Research Report\n\n")
         
@@ -206,12 +191,13 @@ def main():
         
         if sorted_domains:
             report.write(
-                "Check the boxes for domains you want to add. When done, **close this Issue** "
-                "to automatically merge checked items into `whitelist.txt`:\n\n"
+                "Check the boxes for domains you want to add. Click the domain links to inspect them. "
+                "When done, **close this Issue** to automatically merge checked items into `whitelist.txt`:\n\n"
             )
             for domain in sorted_domains:
                 sources_str = ", ".join(sorted(candidates_with_sources[domain]))
-                report.write(f"- [ ] `{domain}` *(Source: {sources_str})*\n")
+                # Rendered as a clickable markdown checkbox item with an https:// link
+                report.write(f"- [ ] [\`{domain}\`](https://{domain}) *(Source: {sources_str})*\n")
                 
             report.write(
                 "\n> **Safety Note:** Please verify domain appropriateness and ensure "
