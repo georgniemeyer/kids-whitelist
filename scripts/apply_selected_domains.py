@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Applies checked domains from a GitHub Issue body directly into whitelist.txt,
-handling both plain backtick formats and markdown clickable links.
+robustly handling multi-line markdown formatting, line breaks, and formatting variations.
 """
 
 import os
@@ -16,16 +16,22 @@ def main():
         print("No issue body found.")
         return
 
-    # Regex to match checked items supporting both formats:
-    # - [x] `domain.tld` or - [x] [`domain.tld`](https://domain.tld)
-    checked_pattern = re.compile(r'-\s*\[[xX]\]\s*(?:\[)?`([^`]+)`(?:\]\([^)]+\))?')
+    # Regex breakdown:
+    # 1. Matches checked box: - [x] or - [X]
+    # 2. Tolerates optional whitespace/newlines
+    # 3. Matches backticked domain name inside markdown link structure, spanning potential newlines (re.DOTALL)
+    checked_pattern = re.compile(
+        r'-\s*\[[xX]\]\s*(?:\[)?\s*`([^`]+)`\s*(?:\]\s*\([^)]+\))?',
+        re.DOTALL
+    )
+    
     selected_domains = checked_pattern.findall(ISSUE_BODY)
 
     if not selected_domains:
         print("No checked domains found in issue body.")
         return
 
-    # Clean and normalize domains
+    # Clean, lowercase and filter out empty strings
     cleaned_domains = [d.strip().lower() for d in selected_domains if d.strip()]
     print(f"Found {len(cleaned_domains)} checked domains to add: {cleaned_domains}")
 
