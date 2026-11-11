@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+          cache: 'pip'
 
       - name: Install Dependencies (Optional)
         run: |
@@ -52,6 +53,5 @@ jobs:
           labels: |
             whitelist-proposal
             enhancement
-          # Prevents duplicate issues by re-using or updating an existing open issue with the same title
           update-existing: true
           search-existing: open
