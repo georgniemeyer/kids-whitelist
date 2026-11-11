@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-FRITZ!Box Whitelist Research Script
------------------------------------
-Periodically checks active external sources (fragFINN, HaGeZi) AND parses RSS feeds
-from renowned pedagogical parent guides (Internet-ABC, Klicksafe, Seitenstark)
-to discover new kid-safe domain candidates while tracking their original source.
+FRITZ!Box Whitelist Research Script (Production Ready)
+----------------------------------------------------
+Periodically checks active external sources and parses RSS feeds
+from renowned pedagogical parent & media guides (Internet-ABC, Klicksafe, Seitenstark)
+to discover new, child-safe domain candidates safely and reliably.
 """
 
 import os
@@ -18,10 +18,10 @@ LOCAL_WHITELIST_PATH = "whitelist.txt"
 OUTPUT_REPORT_PATH = "suggestions.md"
 FRITZBOX_DOMAIN_LIMIT = 500
 
-# 1. Active Community & Technical Allowlist Sources
+# 1. Verified Technical & Community Allowlist Sources
 EXTERNAL_SOURCES = [
     {
-        "name": "fragFINN (eBlocker)",
+        "name": "fragFINN (via eBlocker Mirror)",
         "url": "https://raw.githubusercontent.com/eblocker/eblocker-lists/main/fragFINN-whitelist.txt",
     },
     {
@@ -46,19 +46,26 @@ EDITORIAL_FEEDS = [
     },
 ]
 
+# Strict blacklist of domains that should never be proposed (infrastructure, search, social media)
 IGNORED_DOMAINS = {
     "facebook.com", "instagram.com", "twitter.com", "x.com", "youtube.com",
-    "google.com", "google.de", "bing.com", "t.co", "bit.ly", "w3.org"
+    "google.com", "google.de", "bing.com", "yahoo.com", "t.co", "bit.ly", 
+    "w3.org", "schema.org", "wordpress.org", "github.com", "gitlab.com"
 }
 
 
 def sanitize_domain(raw_entry: str) -> str:
-    """Cleans raw text input/URLs and extracts a normalized base domain."""
+    """
+    Cleans raw text input, URLs, or paths and extracts a normalized base domain.
+    Returns an empty string if the entry is invalid, an IP, or an ignored domain.
+    """
     entry = raw_entry.strip().lower()
     
-    if not entry or entry.startswith("#"):
+    # Ignore empty lines, comments, or anchor links
+    if not entry or entry.startswith(("#", "javascript:", "mailto:")):
         return ""
     
+    # Prepend schema if missing to allow urlparse to process correctly
     if not entry.startswith(("http://", "https://")):
         entry = "http://" + entry
         
@@ -68,15 +75,17 @@ def sanitize_domain(raw_entry: str) -> str:
         if not hostname:
             return ""
         
+        # Remove trailing dot if present
         hostname = hostname.rstrip(".")
         
+        # Strip leading 'www.' for consistent root domain matching
+        if hostname.startswith("www."):
+            hostname = hostname[4:]
+            
+        # Validation checks: Must contain a dot, no IP addresses, no ignored domains
         if "." in hostname and not re.match(r"^\d{1,3}(\.\d{1,3}){3}$", hostname):
-            if hostname not in IGNORED_DOMAINS and not hostname.startswith("www."):
+            if hostname not in IGNORED_DOMAINS and len(hostname) > 3:
                 return hostname
-            elif hostname.startswith("www."):
-                base_domain = hostname[4:]
-                if base_domain not in IGNORED_DOMAINS:
-                    return base_domain
     except Exception:
         pass
     
@@ -84,7 +93,7 @@ def sanitize_domain(raw_entry: str) -> str:
 
 
 def load_local_whitelist(file_path: str) -> set:
-    """Reads the existing local whitelist and returns a set of unique domains."""
+    """Reads the existing local whitelist and returns a set of unique normalized domains."""
     domains = set()
     if os.path.exists(file_path):
         with open(file_path, "r", encoding="utf-8") as file:
@@ -96,41 +105,49 @@ def load_local_whitelist(file_path: str) -> set:
 
 
 def fetch_remote_domains(source_url: str) -> set:
-    """Fetches raw domain list from a remote text file location."""
+    """Fetches and parses raw domain list from a remote text file location safely."""
     found_domains = set()
     req = urllib.request.Request(
         source_url, 
-        headers={"User-Agent": "Mozilla/5.0 (FRITZBox-Whitelist-Researcher/1.0)"}
+        headers={"User-Agent": "Mozilla/5.0 (FRITZBox-KidsWhitelist-Bot/2.0)"}
     )
+    
     try:
-        with urllib.request.urlopen(req, timeout=10) as response:
-            content = response.read().decode("utf-8")
+        with urllib.request.urlopen(req, timeout=12) as response:
+            content = response.read().decode("utf-8", errors="ignore")
             for line in content.splitlines():
                 domain = sanitize_domain(line)
                 if domain:
                     found_domains.add(domain)
     except Exception as err:
         print(f"[Warning] Failed to fetch text source '{source_url}': {err}")
+        
     return found_domains
 
 
 def parse_rss_feed(feed_url: str) -> set:
-    """Parses an RSS XML feed and extracts linked external domains."""
+    """Parses an RSS XML feed safely and extracts linked external domains from items."""
     found_domains = set()
     req = urllib.request.Request(
         feed_url, 
-        headers={"User-Agent": "Mozilla/5.0 (FRITZBox-Whitelist-Researcher/1.0)"}
+        headers={"User-Agent": "Mozilla/5.0 (FRITZBox-KidsWhitelist-Bot/2.0)"}
     )
+    
     try:
-        with urllib.request.urlopen(req, timeout=10) as response:
+        with urllib.request.urlopen(req, timeout=12) as response:
             xml_data = response.read()
             root = ET.fromstring(xml_data)
+            
+            # Search all RSS items
             for item in root.findall(".//item"):
+                # 1. Check <link> tag
                 link_elem = item.find("link")
                 if link_elem is not None and link_elem.text:
                     domain = sanitize_domain(link_elem.text)
                     if domain:
                         found_domains.add(domain)
+                
+                # 2. Check <description> or content snippets for embedded URLs
                 desc_elem = item.find("description")
                 if desc_elem is not None and desc_elem.text:
                     urls = re.findall(r'https?://[^\s<>"]+|www\.[^\s<>"]+', desc_elem.text)
@@ -140,20 +157,25 @@ def parse_rss_feed(feed_url: str) -> set:
                             found_domains.add(domain)
     except Exception as err:
         print(f"[Warning] Failed to parse RSS feed '{feed_url}': {err}")
+        
     return found_domains
 
 
 def main():
-    print("Starting FRITZ!Box Whitelist Research Process...")
+    print("Starting secure FRITZ!Box Whitelist Research Process...")
     
+    # 1. Load active local whitelist
     local_domains = load_local_whitelist(LOCAL_WHITELIST_PATH)
     active_count = len(local_domains)
     remaining_budget = FRITZBOX_DOMAIN_LIMIT - active_count
     
-    # Dictionary mapping domain -> set of source names
+    print(f"Loaded {active_count} active domains from local whitelist.")
+    print(f"Remaining capacity for FRITZ!Box limit (500 max): {remaining_budget} slots.")
+
+    # Dictionary mapping domain -> set of source names for traceability
     candidates_with_sources = {}
 
-    # 1. Process Text Repositories
+    # 2. Process Text Repositories
     for source in EXTERNAL_SOURCES:
         print(f"Scanning repository: {source['name']}...")
         remote_domains = fetch_remote_domains(source["url"])
@@ -161,7 +183,7 @@ def main():
             if domain not in local_domains:
                 candidates_with_sources.setdefault(domain, set()).add(source["name"])
 
-    # 2. Process RSS Feeds
+    # 3. Process RSS Feeds
     for feed in EDITORIAL_FEEDS:
         print(f"Parsing RSS feed: {feed['name']}...")
         rss_domains = parse_rss_feed(feed["url"])
@@ -171,27 +193,29 @@ def main():
 
     sorted_domains = sorted(candidates_with_sources.keys())
     
-    # 3. Write Report
+    # 4. Write Markdown Report for GitHub Action Issue
     with open(OUTPUT_REPORT_PATH, "w", encoding="utf-8") as report:
         report.write("## 🔍 Weekly FRITZ!Box Whitelist Research Report\n\n")
+        
         report.write("### 📊 Current Whitelist Capacity Status\n")
         report.write(f"- **Active Whitelisted Domains:** `{active_count}` / `{FRITZBOX_DOMAIN_LIMIT}`\n")
         report.write(f"- **Remaining Slot Capacity:** `{remaining_budget}` slots\n\n")
+        
         report.write("---\n\n")
         report.write("### 💡 Recommended Domain Additions\n")
         
         if sorted_domains:
             report.write(
                 "Check the boxes for domains you want to add. When done, **close this Issue** "
-                "or comment `/apply` to automatically merge checked items into `whitelist.txt`:\n\n"
+                "to automatically merge checked items into `whitelist.txt`:\n\n"
             )
             for domain in sorted_domains:
                 sources_str = ", ".join(sorted(candidates_with_sources[domain]))
                 report.write(f"- [ ] `{domain}` *(Source: {sources_str})*\n")
                 
             report.write(
-                "\n> **Note:** Please verify you do not exceed your "
-                f"**{remaining_budget}** remaining slots."
+                "\n> **Safety Note:** Please verify domain appropriateness and ensure "
+                f"you do not exceed your remaining **{remaining_budget}** slots."
             )
         else:
             report.write("✅ No new unique domain proposals found this week. Your whitelist is up to date!")
