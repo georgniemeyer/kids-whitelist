@@ -6,7 +6,7 @@ on:
 
 jobs:
   apply-domains:
-    name: Parse Checked Domains and Update Whitelist
+    name: Parse Checked Domains and Update Whitelists
     if: contains(github.event.issue.labels.*.name, 'whitelist-proposal')
     runs-on: ubuntu-latest
 
