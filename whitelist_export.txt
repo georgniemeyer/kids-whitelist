@@ -1,12 +1,10 @@
 abenteuer-regenwald.de
 abfrager.de
-ajax.googleapis.com
 amigo-spiele.de
 antolin.de
 anton.app
 arche-warder.de
 ard-ready.de
-ardmediathek.de
 arena-verlag.de
 arriba-erlebnisbad.de
 asterix.com
@@ -15,6 +13,7 @@ basteln-gestalten.de
 baudichschlau.de
 beltz.de
 besser-basteln.de
+bfn.de
 blinde-kuh.de
 bmfsfj.de
 boersenblatt.net
@@ -27,8 +26,6 @@ bzkj.de
 carlsen.de
 cavallo.de
 cbj-verlag.de
-cdn.fragfinn.de
-cdnjs.cloudflare.com
 checkeins.de
 checky-kinderzeitung.de
 cloudflare.com
@@ -40,7 +37,6 @@ deutsches-museum.de
 deutsches-sculpturenmuseum.de
 deutschlandfunkkultur.de
 die-bloggerbande.de
-die-drei-ausrufezeichen.de
 die-drei-fragezeichen.de
 dlrg.de
 dogityourself.com
@@ -52,16 +48,19 @@ dwds.de
 e-book.de
 egmont-shop.de
 eltern.de
-eltern.fragfinn.de
 erfurter-netcode.de
 familie.de
 feuerwehrverein.de
-fonts.googleapis.com
 fragfinn.de
 frieden-fragen.de
 geo.de
 geolino.de
 ggpht.com
+github.com
+github.io
+githubassets.com
+githubusercontent.com
+googleapis.com
 gravatar.com
 greenpeace-jugend.de
 grundschulkoenig.de
@@ -75,7 +74,6 @@ hansa-park.de
 heide-park.de
 helles-koepfchen.de
 hoerspielprojekt.de
-images.fragfinn.de
 internet-abc.de
 janosch.de
 jim-knopf.de
@@ -93,7 +91,6 @@ kinderkultur-nord.de
 kindermuseum-hamburg.de
 kindernetnetz.de
 kindernetz.de
-klexikon.zum.de
 klick-kindermuseum.de
 klicksafe.de
 klima-sucher.de
@@ -133,9 +130,8 @@ museum-fuehrungen-hamburg.de
 naju-wiki.de
 naju.de
 nationalpark-wattenmeer.de
-naturdetektive.bfn.de
+naturpark-detektive.de
 ndr.de
-neuneinhalb.wdr.de
 oetinger.de
 ohnsorg.de
 ohrenbaer.de
@@ -205,7 +201,6 @@ wwf.de
 ytimg.com
 zahlenzorro.de
 zdf-cdn.de
-zdf.de
 zum.de
 zzzebra.de
 zzzepp.de

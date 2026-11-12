@@ -8,11 +8,11 @@
 fragfinn.de
 internet-abc.de
 klicksafe.de
-blinde-kuh.de
 
 # ==========================================
 # KATEGORIE: 02. Geprüfte Schul- und Lernportale
 # ==========================================
+antolin.de
 ki-kindgerecht.de
 klimafit-schule.de
 schlauer-lernen.de
@@ -32,6 +32,8 @@ asterix.com
 auswandererhaus-bremerhaven.de
 baudichschlau.de
 beltz.de
+bfn.de
+blinde-kuh.de
 bmfsfj.de
 boersenblatt.net
 bpb.de
@@ -82,7 +84,6 @@ kakadu.de
 kinder-ministerium.de
 kindernetnetz.de
 kindernetz.de
-klexikon.zum.de
 klima-sucher.de
 klimahaus-bremerhaven.de
 kosmos.de
@@ -171,14 +172,13 @@ kikaninchen.de
 logo.de
 media-kika.de
 mikado-radio.de
-neuneinhalb.wdr.de
 static-kika.de
+wdr.de
 wdrmaus.de
 
 # ==========================================
 # KATEGORIE: 05. Bücher, Lesen, Hörspiele & Musik
 # ==========================================
-antolin.de
 hoerspielprojekt.de
 lustiges-taschenbuch.de
 
@@ -186,7 +186,7 @@ lustiges-taschenbuch.de
 # KATEGORIE: 06. Hobby, Sport, Tiere & Natur
 # ==========================================
 mensch-und-natur.de
-naturdetektive.bfn.de
+naturpark-detektive.de
 pferde-tipps-fuer-kids.de
 pferde-welt.de
 tierpark-gettorf.de
@@ -237,12 +237,9 @@ vhs-hamburg.de
 # ==========================================
 # KATEGORIE: 11. Technische Infrastruktur & CDNs
 # ==========================================
-ajax.googleapis.com
 bootstrap-cdn.com
-cdnjs.cloudflare.com
 cloudflare.com
-cdn.fragfinn.de
-fonts.googleapis.com
+googleapis.com
 gstatic.com
 jsdelivr.net
 static-zdf.de
@@ -254,4 +251,8 @@ zdf-cdn.de
 # KATEGORIE: 12. Persönliche Custom Domains
 # ==========================================
 checky-kinderzeitung.de
+github.com
+github.io
+githubassets.com
+githubusercontent.com
 
