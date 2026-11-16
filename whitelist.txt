@@ -91,7 +91,6 @@ labbe.de
 landesmuseen.sh
 lauras-stern.de
 leifi-physik.de
-lerntraining.de
 lese-juri.de
 leseliebe.de
 lesepunkte.de
@@ -146,7 +145,6 @@ tove-jansson.com
 turnen.de
 typekit.net
 usborne.de
-vimeo.com
 vorleser.net
 w3.org
 waddensea-worldheritage.org
