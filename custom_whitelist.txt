@@ -4,3 +4,8 @@ github.com/georgniemeyer/kids-whitelist
 raw.githubusercontent.com/georgniemeyer/kids-whitelist
 github.githubassets.com
 github.github.io
+tipp10.com
+phase-6.de
+lerntraining.de
+vimeo.com
+mentimeter.com
