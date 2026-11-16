@@ -121,6 +121,7 @@ meeresmuseum.de
 meine-stadt.de
 meine-tonies.de
 mensch-und-natur.de
+mentimeter.com
 michel-aus-loenneberga.de
 mikado-radio.de
 miniatur-wunderland.de
@@ -142,6 +143,7 @@ ozeaneum.de
 pettersson-findus.de
 pferde-tipps-fuer-kids.de
 pferde-welt.de
+phase-6.de
 planetarium-hamburg.de
 pumuckl.de
 ravensburger.de
@@ -156,6 +158,7 @@ schlauerlernen.de
 schleswig-holstein.de
 schloss-gottorf.de
 scoyo.de
+scroller.de
 seehundstation-norddeich.de
 seitenstark.de
 skaten-lernen.de
@@ -173,6 +176,7 @@ thienemann-esslinger.de
 thw-jugend.de
 tierpark-gettorf.de
 tierschutzbund.de
+tipp10.com
 tivi.de
 tobi-krell.de
 tommi.de
@@ -193,6 +197,7 @@ wasistwas.de
 wattforum.de
 wdr.de
 wdrmaus.de
+when done, **close this issue** to automatically merge checked items into `whitelist.txt`
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de

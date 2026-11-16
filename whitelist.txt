@@ -126,6 +126,7 @@ schau-hin.info
 schema.org
 schloss-gottorf.de
 scoyo.de
+scroller.de
 seehundstation-norddeich.de
 seitenstark.de
 sofatutor.com
@@ -150,6 +151,7 @@ w3.org
 waddensea-worldheritage.org
 wasistwas.de
 wattforum.de
+when done, **close this issue** to automatically merge checked items into `whitelist.txt`
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de
@@ -253,4 +255,9 @@ github.com
 github.io
 githubassets.com
 githubusercontent.com
+lerntraining.de
+mentimeter.com
+phase-6.de
+tipp10.com
+vimeo.com
 
