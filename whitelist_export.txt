@@ -197,7 +197,6 @@ wasistwas.de
 wattforum.de
 wdr.de
 wdrmaus.de
-when done, **close this issue** to automatically merge checked items into `whitelist.txt`
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de
