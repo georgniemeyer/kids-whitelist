@@ -151,7 +151,6 @@ w3.org
 waddensea-worldheritage.org
 wasistwas.de
 wattforum.de
-when done, **close this issue** to automatically merge checked items into `whitelist.txt`
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de
