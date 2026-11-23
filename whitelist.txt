@@ -130,7 +130,6 @@ scroller.de
 seehundstation-norddeich.de
 seitenstark.de
 sofatutor.com
-spotify.com
 srf.ch
 starke-kids.de
 stiftunglesung.de
@@ -183,6 +182,7 @@ wdrmaus.de
 hoerspielprojekt.de
 junge-klassik.de
 lustiges-taschenbuch.de
+spotify.com
 
 # ==========================================
 # KATEGORIE: 06. Hobby, Sport, Tiere & Natur
