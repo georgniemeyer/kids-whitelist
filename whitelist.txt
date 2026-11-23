@@ -151,7 +151,7 @@ w3.org
 waddensea-worldheritage.org
 wasistwas.de
 wattforum.de
-when done, **close this issue** to automatically merge checked items into `whitelist.txt`
+when done, **close this issue** to automatically merge checked items into whitelist.txt
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de
@@ -243,6 +243,7 @@ cloudflare.com
 googleapis.com
 gstatic.com
 jsdelivr.net
+spotifycdn.net
 static-zdf.de
 unpkg.com
 vimeocdn.com
