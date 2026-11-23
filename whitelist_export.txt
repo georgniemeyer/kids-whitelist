@@ -81,6 +81,7 @@ jquery.com
 jsdelivr.net
 jugend-museum.de
 jugendfeuerwehr.de
+junge-klassik.de
 jusprog.de
 kakadu.de
 ki-kindgerecht.de
@@ -197,6 +198,7 @@ wasistwas.de
 wattforum.de
 wdr.de
 wdrmaus.de
+when done, **close this issue** to automatically merge checked items into `whitelist.txt`
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de

@@ -151,6 +151,7 @@ w3.org
 waddensea-worldheritage.org
 wasistwas.de
 wattforum.de
+when done, **close this issue** to automatically merge checked items into `whitelist.txt`
 wilhelmsma.de
 wunderwerkstatt.de
 wunderwigwam.de
@@ -179,6 +180,7 @@ wdrmaus.de
 # KATEGORIE: 05. Bücher, Lesen, Hörspiele & Musik
 # ==========================================
 hoerspielprojekt.de
+junge-klassik.de
 lustiges-taschenbuch.de
 
 # ==========================================
