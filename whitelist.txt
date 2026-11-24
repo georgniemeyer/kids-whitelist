@@ -246,6 +246,7 @@ gstatic.com
 jsdelivr.net
 scdn.co
 spotifycdn.net
+spotifycdn.com
 static-zdf.de
 unpkg.com
 vimeocdn.com
