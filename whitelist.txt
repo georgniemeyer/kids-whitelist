@@ -267,4 +267,4 @@ tipp10.com
 vimeo.com
 windfinder.com
 windfinder.net
-w
+openstreetmap.org
